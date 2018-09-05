@@ -1,24 +1,22 @@
-# README
+* version
+ruby 2.5.1
+rails 5.2.1
+psql 10.5
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* このアプリの説明
+本カリキュラムでは、課題としてタスク管理システムを開発していただきます。
+タスク管理システムでは、以下のことを行いたいと考えています。
 
-Things you may want to cover:
+・自分のタスクを簡単に登録したい
+・タスクに終了期限を設定できるようにしたい
+・ステータス（未着手・着手・完了）を管理したい
+・ステータスでタスクを絞り込みたい
+・タスク名・タスクの説明文でタスクを検索したい
+・タスクを一覧したい。一覧画面で（優先順位、終了期限などを元にして）ソートしたい
+・タスクにラベルなどをつけて分類したい
+・ユーザ登録し、自分が登録したタスクだけを見られるようにしたい
+また、上記の要件を満たすにあたって、次のような管理機能がほしいと考えています。
 
-* Ruby version
+・ユーザの管理機能
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* データ構造の仕様はdocsに写真を添付
