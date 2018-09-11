@@ -6,20 +6,21 @@
   <tr>
     <th>タイトル</th>
     <th>内容</th>
+    <th>終了期限</th>
   </tr>
 
 <% @tasks.each do |task| %>
   <tr>
     <td><%= task.title %></td>
     <td><%= task.content %></td>
-
+    <td><%= task.period %></td>
     <td><%= link_to '詳細を確認する', task_path(task.id) %></td>
     <td><%= link_to 'タスクを編集する', edit_task_path(task.id) %></td>
-    <td><%= link_to 'タスクを削除する', task_path(task.id), method: :delete,data: { confirm: '本当に削除していいですか？' } %></td>
+    <td><%= link_to 'タスクを削除する', task_path(task.id),method: :delete, data: { confirm: '本当に削除していいですか？' } %></td>
   </tr>
 <% end %>
 </table>
-
 <br>
-
+<%= link_to 'タスクを並び替え', tasks_path(sample: "true") %>
+<br><br>
 <%= link_to '新しくタスクを投稿する', new_task_path %>

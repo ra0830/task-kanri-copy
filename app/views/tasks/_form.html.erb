@@ -15,10 +15,16 @@
     <%= form.label :title %>
     <%= form.text_field :title %>
   </div>
+
   <div class="task_title">
     <%= form.label :content %>
     <%= form.text_field :content %>
   </div>
+
+  <div class="task_title">
+    <%= form.label :period %>
+    <%= form.date_select :period %>
+
   <%= form.submit %>
 <% end %>
 

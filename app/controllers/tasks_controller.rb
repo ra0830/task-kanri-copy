@@ -2,7 +2,13 @@ class TasksController < ApplicationController
    before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
-    @tasks = Task.all
+    @tasks = Task.all.reverse_order
+    #@tasks = Task.order(:period)
+    if params[:sample] == "true"
+      @tasks = Task.order(:period)
+    else
+      @tasks = Task.all
+    end
   end
 
   def new
@@ -43,7 +49,7 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:title,:content)
+    params.require(:task).permit(:title,:content,:period,:sample)
   end
 
   def set_task
