@@ -2,11 +2,31 @@
 
 <p><%= notice %></p>
 
+<%= form_tag tasks_path, :method => 'get' do %>
+  <p>タイトルで検索</p>
+  <p>
+    <%= text_field_tag :search, params[:search] %>
+    <%= submit_tag "検索", :name => nil %>
+  </p>
+<% end %>
+
+<%= form_with(model: Task.new, local: true, method: :get, url: tasks_path) do |f| %>
+  <%= f.label :status, "ステータスで検索" %>
+  <%= f.select :status,[['未着手','未着手'],['着手中','着手中'],['完了','完了']] %>
+  <%= f.hidden_field :search_status, value: 'true'%>
+
+  <%= f.submit "検索" %>
+<% end %>
+
+<br><br>
+
 <table>
   <tr>
     <th>タイトル</th>
     <th>内容</th>
     <th>終了期限</th>
+    <th>ステータス</th>
+    <th>優先度</th>
   </tr>
 
 <% @tasks.each do |task| %>
@@ -14,13 +34,18 @@
     <td><%= task.title %></td>
     <td><%= task.content %></td>
     <td><%= task.period %></td>
-    <td><%= link_to '詳細を確認する', task_path(task.id) %></td>
-    <td><%= link_to 'タスクを編集する', edit_task_path(task.id) %></td>
-    <td><%= link_to 'タスクを削除する', task_path(task.id),method: :delete, data: { confirm: '本当に削除していいですか？' } %></td>
+    <td><%= task.status %></td>
+    <td><%= task.priority %></td>
+    <td><%= link_to '詳細', task_path(task.id) %></td>
+    <td><%= link_to '編集', edit_task_path(task.id) %></td>
+    <td><%= link_to '削除', task_path(task.id),method: :delete, data: { confirm: '本当に削除していいですか？' } %></td>
   </tr>
 <% end %>
 </table>
 <br>
-<%= link_to 'タスクを並び替え', tasks_path(sample: "true") %>
+<%= link_to '終了期限順に並び替え', tasks_path(sample: 'true') %>
+<br>
+<%= link_to '優先順位順ごとに並び替え', tasks_path(fast: 'true') %>
 <br><br>
-<%= link_to '新しくタスクを投稿する', new_task_path %>
+<%= link_to '投稿', new_task_path %>
+<%#= paginate @tasks %>
