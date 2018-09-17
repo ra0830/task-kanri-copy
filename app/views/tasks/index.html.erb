@@ -42,10 +42,11 @@
   </tr>
 <% end %>
 </table>
+
 <br>
 <%= link_to '終了期限順に並び替え', tasks_path(sample: 'true') %>
 <br>
 <%= link_to '優先順位順ごとに並び替え', tasks_path(fast: 'true') %>
 <br><br>
 <%= link_to '投稿', new_task_path %>
-<%#= paginate @tasks %>
+<%= paginate @tasks %>
