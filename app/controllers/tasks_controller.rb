@@ -1,34 +1,29 @@
 class TasksController < ApplicationController
    before_action :set_task, only: [:show, :edit, :update, :destroy]
+   before_action :require_logged_in
 
   def index
-    # @tasks = Task.
-    @tasks = Task.all.reverse_order.page(params[:page])
-    #@tasks = Task.paginate(page:params[:page], per_page: 5 )
 
-  #   # 並び替え
+    #@tasks = Task.all.reverse_order.page(params[:page])
+    @tasks = current_user.tasks
+
+    # 並び替え
     if params[:sample].present? || params[:sample] == 'true'
-      @tasks = Task.order(:period).page(params[:page])
+      @tasks = @tasks.order(:period).page(params[:page])
     elsif params[:fast].present? || params[:fast] == 'true'
-      @tasks = Task.order(:priority).page(params[:page])
+      @tasks = @tasks.order(:priority).page(params[:page])
     else
-      @tasks = Task.all.reverse_order.page(params[:page])
-      #@tasks = Task.page(params[:page])
+      @tasks = @tasks.all.reverse_order.page(params[:page])
     end
+
     #タイトル検索
     if params[:search].present?
-      @tasks = Task.search(params[:search], params[:page])
+      @tasks = @tasks.search(params[:search], params[:page])
     end
+
     #状態検索
-    # if params[:task].present? && params[:task][:search_status] == 'true'
-    #   #@tasks = Task.where(['status LIKE ?', "%#{status}%"])
-    #   @tasks = Task.where(status: params[:task][:status])
-    # else
-    #   @tasks = Task.all.reverse_order
-    # end
-    #状態検索（form_with使用、モデルに分散）
     if params[:task].present? && params[:task][:search_status].present?
-      @tasks = Task.search_status(params[:task][:search_status], params[:task][:status], params[:page])
+      @tasks = @tasks.search_status(params[:task][:search_status], params[:task][:status], params[:page])
     end
   end
 
@@ -38,6 +33,7 @@ class TasksController < ApplicationController
 
   def create
     @task = Task.new(task_params)
+    @task.user_id = current_user.id
     if @task.save
       redirect_to tasks_path, notice: "タスクを作成しました！"
     else
@@ -75,6 +71,10 @@ class TasksController < ApplicationController
 
   def set_task
     @task = Task.find(params[:id])
+  end
+
+  def require_logged_in
+    redirect_to new_session_path, notice: t("layout.session.require_login") unless logged_in?
   end
 
 end
